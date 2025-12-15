@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SHL Assessment Recommendation Engine</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: #ffffff;
+            width: 85%;
+            max-width: 900px;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 14px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 14px 22px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .loader {
+            text-align: center;
+            color: #667eea;
+            font-weight: bold;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .result {
+            margin-top: 25px;
+        }
+
+        .answer-box {
+            background: #f4f6ff;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            margin-bottom: 20px;
+            color: #333;
+            white-space: pre-wrap;
+        }
+
+        .card {
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid #eee;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .card h3 {
+            margin: 0 0 8px 0;
+            color: #333;
+        }
+
+        .meta {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .link {
+            color: #667eea;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧠 SHL Assessment Recommender</h1>
+    <p class="subtitle">
+        GenAI-powered system to recommend the right SHL assessments for hiring
+    </p>
+
+    <div class="input-section">
+        <input
+            id="query"
+            type="text"
+            placeholder="e.g. Hiring a junior data analyst with numerical reasoning skills"
+        />
+        <button onclick="recommend()">Recommend</button>
+    </div>
+
+    <div class="loader" id="loader">
+        🔍 Finding the best assessments for you...
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <footer>
+        Built using RAG • FAISS • Open-source Embeddings
+    </footer>
+</div>
+
+<script>
+async function recommend() {
+    const query = document.getElementById("query").value.trim();
+    const resultDiv = document.getElementById("result");
+    const loader = document.getElementById("loader");
+
+    if (!query) {
+        alert("Please enter a job requirement.");
+        return;
+    }
+
+    resultDiv.innerHTML = "";
+    loader.style.display = "block";
+
+    try {
+        const response = await fetch("http://127.0.0.1:5000/recommend", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query })
+        });
+
+        const data = await response.json();
+        loader.style.display = "none";
+
+        // Explanation
+        let html = `
+            <div class="answer-box">
+                <strong>Recommendation Explanation:</strong>\n\n
+                ${data.answer}
+            </div>
+        `;
+
+        // Cards
+        data.recommendations.forEach(item => {
+            html += `
+                <div class="card">
+                    <h3>${item.assessment_name}</h3>
+                    <div class="meta">⏱ Duration: ${item.duration}</div>
+                    <div class="meta">🧪 Test Type: ${item.test_type}</div>
+                    <a class="link" href="${item.url}" target="_blank">
+                        🔗 View Assessment
+                    </a>
+                </div>
+            `;
+        });
+
+        resultDiv.innerHTML = html;
+
+    } catch (error) {
+        loader.style.display = "none";
+        resultDiv.innerHTML = `
+            <div class="answer-box">
+                ❌ Error connecting to backend. Please ensure Flask is running.
+            </div>
+        `;
+    }
+}
+</script>
+
+</body>
+</html>

@@ -68,3 +68,22 @@ This improves contextual understanding and retrieval quality.
 ```python
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("all-MiniLM-L6-v2")
+
+🧭 FAISS (Vector Similarity Search)
+
+Library: FAISS (Facebook AI Similarity Search)
+
+Purpose: Efficient retrieval of top-K semantically similar assessments
+
+Similarity Metric: Cosine similarity
+
+FAISS enables Approximate Nearest Neighbor (ANN) search, making the system scalable and low-latency.
+
+Why FAISS?
+
+Optimized for high-dimensional embeddings
+
+Industry-standard for semantic retrieval
+
+Fast and memory-efficient
+

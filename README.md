@@ -279,7 +279,7 @@ This section demonstrates the working of the SHL Assessment Recommendation Engin
 
 The following screenshot shows the main web interface where recruiters can enter job requirements in natural language.
 
-![Homepage UI](images\Dashoard.png)
+![Homepage UI](images\Dashboard.png)
 
 ---
 
@@ -331,6 +331,7 @@ The following screenshot shows the main web interface where recruiters can enter
 -Explainable recommendation engines
 
 -Designing ML systems for reproducibility
+
 
 
 

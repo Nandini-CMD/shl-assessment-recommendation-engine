@@ -68,22 +68,71 @@ This improves contextual understanding and retrieval quality.
 ```python
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer("all-MiniLM-L6-v2")
+```
 
-🧭 FAISS (Vector Similarity Search)
+## 🏗️ System Architecture (Detailed Explanation)
 
-Library: FAISS (Facebook AI Similarity Search)
+The SHL Assessment Recommendation Engine follows a **modular, retrieval-first architecture** inspired by modern GenAI systems used in HR tech and search platforms.
 
-Purpose: Efficient retrieval of top-K semantically similar assessments
+---
 
-Similarity Metric: Cosine similarity
+### 🔹 High-Level Architecture Flow
+```python
+User (Browser)
+        ↓
+Frontend (HTML + JavaScript)
+        ↓
+Flask REST API (/recommend)
+        ↓
+SentenceTransformer Embeddings
+        ↓
+FAISS Vector Index
+        ↓
+Top-K Relevant Assessments
+        ↓
+Explanation Generator
+        ↓
+Results Displayed to User
+```
+## 🗂️ Project Structure
+```pyhton
+shl-assessment-recommendation-engine/
+│
+├── backend/
+│   ├── app.py              # Flask API
+│   └── rag_engine.py       # Embeddings + FAISS logic
+│
+├── frontend/
+│   └── index.html          # Web UI
+│
+├── data/
+│   └── SHL_catalog.csv     # SHL assessment dataset
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+##🛠️ Installation & Setup
+###🔧 Prerequisites
+-Python ≥ 3.8
+-pip
+-Virtual environment (recommended)
 
-FAISS enables Approximate Nearest Neighbor (ANN) search, making the system scalable and low-latency.
+##📦 Steps
+###1️⃣ Clone the Repository
+```
+git clone <your-github-repo-url>
+cd shl-assessment-recommendation-engine
+```
 
-Why FAISS?
+###2️⃣ Create & Activate Virtual Environment
+```python -m venv venv
+venv\Scripts\activate   # Windows
+```
+###3️⃣ Install Dependencies
+```pip install -r requirements.txt```
 
-Optimized for high-dimensional embeddings
 
-Industry-standard for semantic retrieval
 
-Fast and memory-efficient
+
 

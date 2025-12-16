@@ -112,25 +112,27 @@ shl-assessment-recommendation-engine/
 ├── README.md
 └── .gitignore
 ```
-##🛠️ Installation & Setup
-###🔧 Prerequisites
--Python ≥ 3.8
--pip
--Virtual environment (recommended)
+## 🛠️ Installation & Setup
 
-##📦 Steps
-###1️⃣ Clone the Repository
+### 🔧 Prerequisites
+ -Python ≥ 3.8
+ -pip
+ -Virtual environment (recommended)
+
+## 📦 Steps
+### 1️⃣ Clone the Repository
 ```
 git clone <your-github-repo-url>
 cd shl-assessment-recommendation-engine
 ```
 
-###2️⃣ Create & Activate Virtual Environment
+### 2️⃣ Create & Activate Virtual Environment
 ```python -m venv venv
 venv\Scripts\activate   # Windows
 ```
-###3️⃣ Install Dependencies
+### 3️⃣ Install Dependencies
 ```pip install -r requirements.txt```
+
 
 
 
